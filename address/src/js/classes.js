@@ -45,9 +45,13 @@ class AddressBook {
       							<td>${this.items[i].number}</td>
     						</tr>`;
 			table.append(tr)
-		}	
 
+
+		}	
+		this.list = []
 		this.multiSel()
+
+		
 	}
 
 	init() {
