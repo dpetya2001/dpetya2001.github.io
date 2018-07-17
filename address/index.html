@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="row tool">
-			<button type="button" onclick="openAddI()" class="btn btn-primary">New</button>
+			<button type="button" class="btn btn-primary" id="btn-open">New</button>
 			<div class="input-group mb-3 col-9">
   <input type="text" class="form-control" placeholder="Search by username" aria-label="Search by username" aria-describedby="button-addon2">
   <div class="input-group-append">
@@ -43,7 +43,7 @@
     		<input type="email" class="form-control" id="email" placeholder="name@example.com">
   		</div>
 
-  		<div class="btn btn-primary" onclick="addBook();">Add new book</div>
+  		<div id="btn-add" class="btn btn-primary"">Add new book</div>
   		</form>
 	</div>
 
@@ -64,7 +64,7 @@
 </table>
 	</div>
 	<div class="row">
-		<button id="btn-delete" class="btn btn-danger helper" onclick="delBook()">
+		<button id="btn-delete" class="btn btn-danger helper">
 			Delete
 		</button>
 		<button id="btn-upd"class="btn btn-secondary helper">
@@ -74,7 +74,7 @@
 		
 	</div>
 
-
+	<script src="src/js/classes.js"></script>
 	<script src="src/js/app.js"></script>
 </body>
 </html>

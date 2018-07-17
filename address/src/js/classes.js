@@ -18,9 +18,12 @@ class AddressBook {
 	}
 
 	del() {
-		for (var i = 0; i < this.checkedList.length; i++) {
+		this.checkedList.sort()
+		for (var i = this.checkedList.length - 1; i > -1 ; i--) {
+			console.log(i)
 			this.items.splice(this.checkedList[i],1)
 		}
+	
 		this.checkedList = []
 		this.list = []
 		
@@ -43,7 +46,7 @@ class AddressBook {
     						</tr>`;
 			table.append(tr)
 		}	
-		
+
 		this.multiSel()
 	}
 
@@ -86,6 +89,9 @@ class AddressBook {
 		    	this.list.push(parseInt(result.getAttribute('bid'),10))
 	
 		    	result.addEventListener('change', (e) => {
+		    	console.log(11111111111)
+		    	console.log('list',this.list)
+		    	console.log('check',this.checkedList)
 		    	let bid = parseInt(e.target.getAttribute('bid'))
 		    	if (e.target.checked) {
 		    		if (this.checkedList.indexOf(bid) < 0) {
