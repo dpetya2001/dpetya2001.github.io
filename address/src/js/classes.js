@@ -54,7 +54,8 @@ class App {
 			let u = document.querySelector('#lUserLogin').value
 			let p = document.querySelector('#lUserPass').value
 			let obj = JSON.parse(localStorage.getItem('Data'))
-			
+			let f = 0
+
 			for (var i = 0; i < obj.users.length; i++) {
   				if (obj.users[i].Username == u) {
     				
@@ -67,13 +68,19 @@ class App {
 
     				} else { 
     					alert('Неправильный пароль!') 
-    					return false
+    					f = 1
+    					break
     				}
   				} 
 			}
 
-			alert('Taкого паользователя нет, можете зарегистрироваться')
-			return false			
+			if (f == 1) {
+				return false
+			} else {
+				alert('Taкого паользователя нет, можете зарегистрироваться')
+				return false
+			}
+						
 
 
 		})				
