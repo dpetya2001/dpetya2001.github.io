@@ -1,24 +1,36 @@
 class App {
 	constructor() {
 		this.UserBook = null
+	}
 
+	page(data) {
+		let sp = document.querySelector('#startPage')
+		let lp = document.querySelector('#LoginedSide')
+
+		if (data == 0) {
+			if (sp.classList.contains('open')){sp.classList.remove('open')}
+			if (lp.classList.contains('open')){lp.classList.remove('open')}
+		} else if ( data == 1 ) {
+			if (!sp.classList.contains('open')){sp.classList.add('open')}
+			if (lp.classList.contains('open')){lp.classList.remove('open')}
+		} else {
+			if (sp.classList.contains('open')){sp.classList.remove('open')}
+			if (!lp.classList.contains('open')){lp.classList.add('open')}
+		}		
 	}
 
 	start() {
+		this.page(0)
+
 		if (localStorage.getItem('user') == null) {
-			if (localStorage.getItem('Data') == null) { app.init() }
-			else { 
-			document.querySelector('#startPage').classList.toggle('open')	
-			return app.login()
- 			}
+			if (localStorage.getItem('Data') == null) { app.init() } else { return app.login() }
 		} else { return app.load() }
 	}
 
 	load () {
 		let obj = JSON.parse(localStorage.getItem('user'))
-		document.querySelector('#LoginedSide').classList.toggle('open')
-		if(document.querySelector('#startPage').classList.contains('open')) {document.querySelector('#startPage').classList.toggle('open')}
 
+		this.page(2)
 		this.UserBook = new AddressBook(obj)
 		this.UserBook.load()
 		this.UserBook.multiSel()
@@ -35,12 +47,11 @@ class App {
 	}
 
 	login() {
-
+		this.page(1)
 		document.querySelector('#SignIn').addEventListener('click', () => { 
 			
 
 			let u = document.querySelector('#lUserLogin').value
-			console.log(u)
 			let p = document.querySelector('#lUserPass').value
 			let obj = JSON.parse(localStorage.getItem('Data'))
 			
@@ -51,7 +62,7 @@ class App {
 
     					let list = JSON.parse(localStorage.getItem('Data'));
     					localStorage.setItem('user',JSON.stringify({uid:i,obj:list.users[i].Books}))
-
+    					
     					return this.load()
 
     				} else { 
