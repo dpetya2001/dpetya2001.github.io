@@ -4,8 +4,8 @@ class App {
 	}
 
 	page(data) {
-		let sp = document.querySelector('#startPage')
-		let lp = document.querySelector('#LoginedSide')
+		const sp = document.querySelector('#startPage')
+		const lp = document.querySelector('#LoginedSide')
 
 		if (data == 0) {
 			if (sp.classList.contains('open')){sp.classList.remove('open')}
@@ -28,7 +28,7 @@ class App {
 	}
 
 	load () {
-		let obj = JSON.parse(localStorage.getItem('user'))
+		const obj = JSON.parse(localStorage.getItem('user'))
 
 		this.page(2)
 		this.UserBook = new AddressBook(obj)
@@ -39,7 +39,7 @@ class App {
 
 
 	init() {
-			let obj = JSON.stringify({users: [{ Username: "root",Password: "",Books: []}]})
+			const obj = JSON.stringify({users: [{ Username: "root",Password: "",Books: []}]})
 			localStorage.setItem('Data', obj)
 			localStorage.setItem('user', JSON.stringify({uid: 0, obj: []}))
 
@@ -51,9 +51,9 @@ class App {
 		document.querySelector('#SignIn').addEventListener('click', () => { 
 			
 
-			let u = document.querySelector('#lUserLogin').value
-			let p = document.querySelector('#lUserPass').value
-			let obj = JSON.parse(localStorage.getItem('Data'))
+			const u = document.querySelector('#lUserLogin').value
+			const p = document.querySelector('#lUserPass').value
+			const obj = JSON.parse(localStorage.getItem('Data'))
 			let f = 0
 
 			for (var i = 0; i < obj.users.length; i++) {
@@ -61,7 +61,7 @@ class App {
     				
     				if (obj.users[i].Password == p) {
 
-    					let list = JSON.parse(localStorage.getItem('Data'));
+    					const list = JSON.parse(localStorage.getItem('Data'));
     					localStorage.setItem('user',JSON.stringify({uid:i,obj:list.users[i].Books}))
     					
     					return this.load()
@@ -88,11 +88,11 @@ class App {
 
 	register() {
 		document.querySelector('#SignUp').addEventListener('click', () =>{
-			let u = document.querySelector('#UserLogin').value
-			let p = document.querySelector('#UserPass').value
-			let obj = {Username: u,Password: p,Books: []}
+			const u = document.querySelector('#UserLogin').value
+			const p = document.querySelector('#UserPass').value
+			const obj = {Username: u,Password: p,Books: []}
 
-			let data = JSON.parse(localStorage.getItem('Data'))
+			const data = JSON.parse(localStorage.getItem('Data'))
 			data.users.push(obj)
 			localStorage.setItem('Data',JSON.stringify(data))
 			localStorage.setItem('user',JSON.stringify({uid:data.users.length-1,obj:[]}))
@@ -106,8 +106,8 @@ class App {
 	}
 
 	exit () {
-		let obj = JSON.parse(localStorage.getItem('Data'))
-		let userObj = JSON.parse(localStorage.getItem('user'))
+		const obj = JSON.parse(localStorage.getItem('Data'))
+		const userObj = JSON.parse(localStorage.getItem('user'))
 		
 		obj.users[userObj.uid].Books = userObj.obj
 
@@ -131,8 +131,8 @@ class AddressBook {
 
 	append(data) {
 		this.items.push(data)
-		let del = document.querySelector('#btn-delete')
-		let upd = document.querySelector('#btn-upd')
+		const del = document.querySelector('#btn-delete')
+		const upd = document.querySelector('#btn-info')
 		if (upd.classList.contains('open')){upd.classList.toggle('open')}
 	    if (del.classList.contains('open')){del.classList.toggle('open')}
 	    this.checkedList = []
@@ -140,6 +140,8 @@ class AddressBook {
 		this.save()
 		this.load()
 	}
+
+
 	del() {
 		this.checkedList.sort()
 		for (var i = this.checkedList.length - 1; i > -1 ; i--) {
@@ -154,11 +156,11 @@ class AddressBook {
 		this.load()
 	}
 	load() {
-		let table = document.querySelector('tbody')
+		const table = document.querySelector('tbody')
 		table.innerHTML = ''
 		
 		for (var i = 0; i < this.items.length; i++) {
-			let tr = document.createElement('tr')
+			const tr = document.createElement('tr')
 			tr.innerHTML = `<tr>
       							<th scope="row"><input type="checkbox" class="form-check-input" bid="${i}"></th>
       							<td>${this.items[i].fname}</td>
@@ -178,8 +180,22 @@ class AddressBook {
 		localStorage.setItem('user', JSON.stringify({uid:this.uid,obj: this.items}))
 	}
 
+	fullView () {
+		const i = this.checkedList[0]
+
+		document.querySelector('.values').innerHTML = 
+					`
+					<span>${this.items[i].fname}</span>
+					<span>${this.items[i].lname}</span>
+					<span>${this.items[i].email}</span>
+					<span>${this.items[i].number}</span>
+					<span>${this.items[i].place}</span>
+					<span>${this.items[i].place2}</span> `
+
+	}
+
 	multiSel() {
-		let box = document.querySelectorAll('.form-check-input')
+		const box = document.querySelectorAll('.form-check-input')
 		let result;
 	
 		for (var i = 0; i < box.length; i++) {
@@ -189,7 +205,7 @@ class AddressBook {
 		    	this.list.push(parseInt(result.getAttribute('bid'),10))
 	
 		    	result.addEventListener('change', (e) => {
-		    	let bid = parseInt(e.target.getAttribute('bid'))
+		    	const bid = parseInt(e.target.getAttribute('bid'))
 
 		    		// check
 		    		if (e.target.checked) {
@@ -199,8 +215,8 @@ class AddressBook {
 		    		}
 
 		    		// show/hide buttons
-		    		let del = document.querySelector('#btn-delete')
-		    		let upd = document.querySelector('#btn-upd')
+		    		const del = document.querySelector('#btn-delete')
+		    		const upd = document.querySelector('#btn-info')
 
 	    			if (this.checkedList.length == 1) {
 	    				if (!del.classList.contains('open')){del.classList.toggle('open')}
@@ -218,17 +234,21 @@ class AddressBook {
 }
 class BookItem {
 
-  		constructor(fname,lname,email,number) {
+  		constructor(fname,lname,email,number,place,place2) {
     		this.fname = fname
     		this.lname = lname
     		this.email = email
     		this.number = number
+    		this.place = place
+    		this.place2 = place2
   		}
 
-  		edit(fname,lname,email,number) {
+  		edit(fname,lname,email,number,place,place2) {
 			this.fname = fname
     		this.lname = lname
     		this.email = email
     		this.number = number
+    		this.place = place
+    		this.place2 = place2
 		}
 }

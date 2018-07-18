@@ -9,30 +9,30 @@
 	<link rel="stylesheet" href="src/css/start.css">
 </head>
 <body>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="regModal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      
-		<form>
-				<div class="form-group">
-					<h1>Register</h1>
-					<label for="#UserLogin">Username</label>
-					<input class="form-control" type="text" placeholder="John" id="UserLogin">
-				</div>
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="regModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
 
-				<div class="form-group">
-					<label for="#UserPass">Password</label>
-					<input class="form-control" type="text" 	placeholder="******" id="UserPass">
-				</div>
+				<form>
+					<div class="form-group">
+						<h1>Register</h1>
+						<label for="#UserLogin">Username</label>
+						<input class="form-control" type="text" placeholder="John" id="UserLogin">
+					</div>
 
-				<div class="btn btn-primary" id="SignUp">Sign Up</div>
-		</form>
+					<div class="form-group">
+						<label for="#UserPass">Password</label>
+						<input class="form-control" type="text" 	placeholder="******" id="UserPass">
+					</div>
 
-    </div>
-  </div>
-</div>
+					<div class="btn btn-primary" id="SignUp">Sign Up</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
 	<div class="container helper" id="startPage">
-    	<div class="row">
+		<div class="row">
 			<form>
 				<div class="form-group">
 					<h1>Login</h1>
@@ -49,8 +49,8 @@
 				<div class="btn btn-info" id="btn-regModal">Register</div>
 			</form>
 		</div>
-    </div>
-    
+	</div>
+
 
 	<div class="container helper" id="LoginedSide">
 		<div class="row">
@@ -58,80 +58,107 @@
 		</div>
 
 		<div class="row tool">
-			<div class="btn btn-primary" id="btn-open">New</div>
-			<div class="input-group mb-3 col-9">
-  <input type="text" class="form-control" placeholder="Search by username" aria-label="Search by username" aria-describedby="button-addon2">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-  </div>
-</div>		
-	<div class="btn btn-warning" id="btn-exit">Выйти</div>
-</div>
-	
-
-	<div class="row">
-		<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">email</th>
-      <th scope="col">number</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-  </tbody>
-</table>
-	</div>
-	
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="fullModal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <form>
-		<div class="form-group">
-			<label for="#first-name">First name</label>
-			<input class="form-control" type="text" placeholder="John" id="first-name">
+			<div class="btn btn-primary mb-3" id="btn-open">New</div>
+			<div class="input-group mb-3 col">
+				<input type="text" class="form-control" id="search" placeholder="Search by username" aria-label="Search by username" aria-describedby="button-addon2">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+				</div>
+			</div>		
+			<div class="btn btn-warning mb-3" id="btn-exit">Выйти</div>
 		</div>
 
-		<div class="form-group">
-			<label for="#last-name">Last name</label>
-			<input class="form-control" type="text" placeholder="Smith" id="last-name">
+
+		<div class="row">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">First</th>
+						<th scope="col">Last</th>
+						<th scope="col">email</th>
+						<th scope="col">number</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
 		</div>
-		<div class="form-group">
-			<label for="#number">Number</label>
-			<input class="form-control" type="text" placeholder="+7XXXXXXXXXX" id="number">
+
+		<div class="row">
+			<div id="btn-delete" class="btn btn-danger helper">Delete</div>
+			<div id="btn-info"class="btn btn-dark helper">info</div>
 		</div>
 
-		<div class="form-group">
-    <label for="email">Email address</label>
-    		<input type="email" class="form-control" id="email" placeholder="name@example.com">
-  		</div>
 
-  		<div id="btn-add" class="btn btn-primary"">Add new book</div>
-  		</form>
-    </div>
-  </div>
-</div>
+		<!-- ******************modals******************** -->
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="fullModal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<form>
+						<div class="form-group">
+							<label for="#first-name">First name*</label>
+							<input class="form-control" type="text" placeholder="John" id="first-name">
+						</div>
+
+						<div class="form-group">
+							<label for="#last-name">Last name*</label>
+							<input class="form-control" type="text" placeholder="Smith" id="last-name">
+						</div>
+
+						<div class="form-group">
+							<label for="#number">Number*</label>
+							<input class="form-control" type="text" placeholder="+7XXXXXXXXXX" id="number">
+						</div>
+
+						<div class="form-group">
+							<label for="email">Email address*</label>
+							<input type="email" class="form-control" id="email" placeholder="name@example.com">
+						</div>
+
+						<div class="form-group">
+							<label for="#livePlace">City, Country (optional)</label>
+							<input class="form-control" type="text" placeholder="Москва, Россия" id="livePlace">
+						</div>
+
+						<div class="form-group">
+							<label for="#workPlace">Rabota (optional)</label>
+							<input class="form-control" type="text" placeholder="OOO Программисты html" id="workPlace">
+						</div>					
+						<div id="btn-add" class="btn btn-primary"">Add new book</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- ********************** -->
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="infoModal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content" id="ui1">
+						<div class="heading">
+							<span>First name</span>
+							<span>Last name</span>
+							<span>Email</span>
+							<span>Number</span>
+							<span>City, country</span>
+							<span>Место работы</span>
+							<div class="btn btn-primary">Edit</div>
+						</div>
+						<div class="values">
+							
+						</div>
 
 
-
-
-	<div class="row">
-		<button id="btn-delete" class="btn btn-danger helper">
-			Delete
-		</button>
-		<button id="btn-upd"class="btn btn-secondary helper">
-			Edit
-		</button>
-	</div>
-		
+				</div>
+			</div>
+		</div>
+		<!-- *************************** -->
 	</div>
 	
-
+	
 	<script src="src/libs/bootstrap-native.min.js"></script>
 	<script src="src/js/classes.js"></script>
 	<script src="src/js/index.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiJErCGzEU21qPo9hYvxTw7ZaWPoME9Dk&libraries=places&callback=complete"></script>
 </body>
 </html>
