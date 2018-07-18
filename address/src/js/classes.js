@@ -1,3 +1,16 @@
+class BookItem {
+
+  		constructor(fname,lname,email,number,place,place2) {
+    		this.fname = fname
+    		this.lname = lname
+    		this.email = email
+    		this.number = number
+    		this.place = place
+    		this.place2 = place2
+  		}
+  		
+}
+
 class App {
 	constructor() {
 		this.UserBook = null
@@ -131,12 +144,6 @@ class AddressBook {
 
 	append(data) {
 		this.items.push(data)
-		const del = document.querySelector('#btn-delete')
-		const upd = document.querySelector('#btn-info')
-		if (upd.classList.contains('open')){upd.classList.toggle('open')}
-	    if (del.classList.contains('open')){del.classList.toggle('open')}
-	    this.checkedList = []
-		this.list = []
 		this.save()
 		this.load()
 	}
@@ -148,9 +155,6 @@ class AddressBook {
 			console.log(i)
 			this.items.splice(this.checkedList[i],1)
 		}
-	
-		this.checkedList = []
-		this.list = []
 		
 		this.save()
 		this.load()
@@ -171,8 +175,15 @@ class AddressBook {
 			table.append(tr)
 
 
-		}	
+		}
+		const del = document.querySelector('#btn-delete')
+		const upd = document.querySelector('#btn-info')
+		if (upd.classList.contains('open')){upd.classList.remove('open')}
+	    if (del.classList.contains('open')){del.classList.remove('open')}
+
+
 		this.list = []
+		this.checkedList = []
 		this.multiSel()	
 	}
 
@@ -190,10 +201,48 @@ class AddressBook {
 					<span>${this.items[i].email}</span>
 					<span>${this.items[i].number}</span>
 					<span>${this.items[i].place}</span>
-					<span>${this.items[i].place2}</span> `
+					<span>${this.items[i].place2}</span> 
+					<div class="btn btn-primary" id="btn-edit">Edit</div>`
+
+		document.querySelector('#btn-edit').addEventListener('click', () => { this.edit() })
 
 	}
+	edit () {
+		const i = this.checkedList[0]
 
+
+		document.querySelector('.values').innerHTML = 
+					`
+					<input id="i1" type="text" value="${this.items[i].fname}">
+					<input id="i2" type="text" value="${this.items[i].lname}">
+					<input id="i3" type="text" value="${this.items[i].email}">
+					<input id="i4" type="text" value="${this.items[i].number}">
+					<input id="i5" type="text" value="${this.items[i].place}">
+					<input id="i6" type="text" value="${this.items[i].place2}">
+					<div class="btn btn-primary" id="btn-save">Save</div> `
+
+		document.querySelector('#btn-save').addEventListener('click', () => { 
+			infoModal.toggle() 
+			const d = document
+			const fname = d.querySelector('#i1').value
+			const lname = d.querySelector('#i2').value
+			const email = d.querySelector('#i3').value
+			const number = d.querySelector('#i4').value
+			const place = d.querySelector('#i5').value
+			const place2 = d.querySelector('#i6').value
+
+			this.items[i] = new BookItem(fname,lname,email,number,place,place2)
+			this.save()
+			this.load()
+
+
+		})
+
+
+
+
+
+	}
 	multiSel() {
 		const box = document.querySelectorAll('.form-check-input')
 		let result;
@@ -231,24 +280,4 @@ class AddressBook {
 	    	}	    
 		}
 	}
-}
-class BookItem {
-
-  		constructor(fname,lname,email,number,place,place2) {
-    		this.fname = fname
-    		this.lname = lname
-    		this.email = email
-    		this.number = number
-    		this.place = place
-    		this.place2 = place2
-  		}
-
-  		edit(fname,lname,email,number,place,place2) {
-			this.fname = fname
-    		this.lname = lname
-    		this.email = email
-    		this.number = number
-    		this.place = place
-    		this.place2 = place2
-		}
 }
