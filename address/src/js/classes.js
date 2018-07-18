@@ -1,22 +1,127 @@
+class App {
+	constructor() {
+		this.UserBook = null
+
+	}
+
+	start() {
+		if (localStorage.getItem('user') == null) {
+			if (localStorage.getItem('Data') == null) { app.init() }
+			else { 
+			document.querySelector('#startPage').classList.toggle('open')	
+			return app.login()
+ 			}
+		} else { return app.load() }
+	}
+
+	load () {
+		let obj = JSON.parse(localStorage.getItem('user'))
+		document.querySelector('#LoginedSide').classList.toggle('open')
+		if(document.querySelector('#startPage').classList.contains('open')) {document.querySelector('#startPage').classList.toggle('open')}
+
+		this.UserBook = new AddressBook(obj)
+		this.UserBook.load()
+		this.UserBook.multiSel()
+
+	}
+
+
+	init() {
+			let obj = JSON.stringify({users: [{ Username: "root",Password: "",Books: []}]})
+			localStorage.setItem('Data', obj)
+			localStorage.setItem('user', JSON.stringify({uid: 0, obj: []}))
+
+			return this.load() 
+	}
+
+	login() {
+
+		document.querySelector('#SignIn').addEventListener('click', () => { 
+			
+
+			let u = document.querySelector('#lUserLogin').value
+			console.log(u)
+			let p = document.querySelector('#lUserPass').value
+			let obj = JSON.parse(localStorage.getItem('Data'))
+			
+			for (var i = 0; i < obj.users.length; i++) {
+  				if (obj.users[i].Username == u) {
+    				
+    				if (obj.users[i].Password == p) {
+
+    					let list = JSON.parse(localStorage.getItem('Data'));
+    					localStorage.setItem('user',JSON.stringify({uid:i,obj:list.users[i].Books}))
+
+    					return this.load()
+
+    				} else { 
+    					alert('Неправильный пароль!') 
+    					return false
+    				}
+  				} 
+			}
+
+			alert('Taкого паользователя нет, можете зарегистрироваться')
+			return false			
+
+
+		})				
+	}
+
+	register() {
+		document.querySelector('#SignUp').addEventListener('click', () =>{
+			let u = document.querySelector('#UserLogin').value
+			let p = document.querySelector('#UserPass').value
+			let obj = {Username: u,Password: p,Books: []}
+
+			let data = JSON.parse(localStorage.getItem('Data'))
+			data.users.push(obj)
+			localStorage.setItem('Data',JSON.stringify(data))
+			localStorage.setItem('user',JSON.stringify({uid:data.users.length-1,obj:[]}))
+
+			regModal.toggle()
+			return this.load()
+
+		})
+		
+
+	}
+
+	exit () {
+		let obj = JSON.parse(localStorage.getItem('Data'))
+		let userObj = JSON.parse(localStorage.getItem('user'))
+		
+		obj.users[userObj.uid].Books = userObj.obj
+
+		localStorage.setItem('Data',JSON.stringify(obj))
+		localStorage.removeItem('user')
+
+		document.querySelector('#LoginedSide').classList.toggle('open')
+
+		return this.start()
+	}
+}
+
 
 class AddressBook {
-	constructor() {
-		this.user =  {}
-		this.items = []
+	constructor(book) {
+		this.items = book.obj
+		this.uid = book.uid
 		this.checkedList = []
 		this.list = []
 	}
 
-	g() {
-		return {userInfo: this.user, userBooks: this.items}
-	}
-
 	append(data) {
 		this.items.push(data)
+		let del = document.querySelector('#btn-delete')
+		let upd = document.querySelector('#btn-upd')
+		if (upd.classList.contains('open')){upd.classList.toggle('open')}
+	    if (del.classList.contains('open')){del.classList.toggle('open')}
+	    this.checkedList = []
+		this.list = []
 		this.save()
 		this.load()
 	}
-
 	del() {
 		this.checkedList.sort()
 		for (var i = this.checkedList.length - 1; i > -1 ; i--) {
@@ -30,11 +135,10 @@ class AddressBook {
 		this.save()
 		this.load()
 	}
-
 	load() {
 		let table = document.querySelector('tbody')
 		table.innerHTML = ''
-
+		
 		for (var i = 0; i < this.items.length; i++) {
 			let tr = document.createElement('tr')
 			tr.innerHTML = `<tr>
@@ -49,37 +153,11 @@ class AddressBook {
 
 		}	
 		this.list = []
-		this.multiSel()
-
-		
-	}
-
-	init() {
-		let list;
-
-		if (localStorage.getItem('Data') !== null) { 
-			list = JSON.parse(localStorage.getItem('Data'))
-			this.items = list.userBooks //return list
-		} else {
-			alert('Регистрация')
-			var obj = {
-				userInfo: {
-					login: "Admin",
-					pass: "123123"
-					},
-				userBooks: []
-				}
-			let listToSave = JSON.stringify(obj)
-			localStorage.setItem('Data', listToSave)
-			list = JSON.parse(localStorage.getItem('Data'));
-	
-			this.items =  list.userBooks;
-			this.user = list.userInfo
-		}
+		this.multiSel()	
 	}
 
 	save() {
-		localStorage.setItem('Data', JSON.stringify(this.g()))
+		localStorage.setItem('user', JSON.stringify({uid:this.uid,obj: this.items}))
 	}
 
 	multiSel() {
@@ -93,37 +171,32 @@ class AddressBook {
 		    	this.list.push(parseInt(result.getAttribute('bid'),10))
 	
 		    	result.addEventListener('change', (e) => {
-		    	console.log(11111111111)
-		    	console.log('list',this.list)
-		    	console.log('check',this.checkedList)
 		    	let bid = parseInt(e.target.getAttribute('bid'))
-		    	if (e.target.checked) {
-		    		if (this.checkedList.indexOf(bid) < 0) {
-		    		this.checkedList.push(bid)}
-		    	} else {
-		    		this.checkedList.splice(this.checkedList.indexOf(bid),1)
-		    	}
-		    	let del = document.querySelector('#btn-delete')
-		    	let upd = document.querySelector('#btn-upd')
-	    	if (this.checkedList.length == 1) {
-	    		if (!del.classList.contains('open')){del.classList.toggle('open')}
-	    		upd.classList.toggle('open')
-	    	} else if(this.checkedList.length > 1) {   
-	    			if (upd.classList.contains('open')){upd.classList.toggle('open')}	
-	    	} else if (this.checkedList.length == 0) {
-	    		if (upd.classList.contains('open')){upd.classList.toggle('open')}
-	    		if (del.classList.contains('open')){del.classList.toggle('open')}
-	    	}
 
+		    		// check
+		    		if (e.target.checked) {
+		    			if (this.checkedList.indexOf(bid) < 0) { this.checkedList.push(bid) }
+		    		} else {
+		    			this.checkedList.splice(this.checkedList.indexOf(bid),1)
+		    		}
 
-			})
-	    }
-	    
+		    		// show/hide buttons
+		    		let del = document.querySelector('#btn-delete')
+		    		let upd = document.querySelector('#btn-upd')
+
+	    			if (this.checkedList.length == 1) {
+	    				if (!del.classList.contains('open')){del.classList.toggle('open')}
+	    				upd.classList.toggle('open')
+	    			} else if(this.checkedList.length > 1) {   
+	    				if (upd.classList.contains('open')){upd.classList.toggle('open')}	
+	    			} else if (this.checkedList.length == 0) {
+	    				if (upd.classList.contains('open')){upd.classList.toggle('open')}
+	    				if (del.classList.contains('open')){del.classList.toggle('open')}
+	    			}
+				})
+	    	}	    
+		}
 	}
-
-}
-
-
 }
 class BookItem {
 
@@ -140,10 +213,4 @@ class BookItem {
     		this.email = email
     		this.number = number
 		}
-}
-
-function openAddI(event) {
-	let addI = document.querySelector('#addI')
-
-	addI.classList.toggle('open')
 }
