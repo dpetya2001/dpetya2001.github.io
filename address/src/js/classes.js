@@ -469,7 +469,7 @@ class AddressBook {
 		}
 		let f = 0
 		for (var i = 0; i < items.length; i++) {
-			let str = items[i].place2
+			let str = items[i].place2 + ' '
 
 			if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
 				
