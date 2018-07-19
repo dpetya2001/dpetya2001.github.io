@@ -64,8 +64,10 @@
 				
 				<div class="input-group-append col-3">
 					<select class="custom-select" id="iSelect">
-						<option value="0" selected>По имени</option>
+						<option value="0" selected>По имени/фамилии</option>
 						<option value="1">По странам/городам</option>
+						<option value="2">По номеру/емаил</option>
+						<option value="3">По компании</option>
 					</select>
 				</div>
 				
@@ -84,8 +86,8 @@
 						<th scope="col">#</th>
 						<th class="pointable" scope="col" id="byF">First</th>
 						<th class="pointable" scope="col" id="byL">Last</th>
-						<th scope="col">email</th>
-						<th scope="col">number</th>
+						<th class="pointable" scope="col" id="byE">email</th>
+						<th class="pointable" scope="col" id="byN">number</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -256,8 +258,12 @@
 				<tbody id="ui2">
 
 				</tbody>
-			</table>	
+			</table>
+			<div class="modal-footer">
+					<div class="btn btn-primary" id="btn-allow">Все равно добавить</div>
+				</div>	
 				</div>
+				
 			</div>
 		</div>
 		<!-- ********************* -->

@@ -38,10 +38,8 @@ const form1 = document.getElementsByClassName('needs-validation');
 
       		if (app.UserBook.items.length == 0) { addBook(); return false }
       		for (var i = 0; i < app.UserBook.items.length; i++) {
-      			console.log(app.UserBook.items[i].number,number)
       			if (app.UserBook.items[i].number == number||app.UserBook.items[i].email == email){
       				arr.push({uid:i,item: app.UserBook.items[i]})
-      				console.log(arr)
       			}
 
       		}
@@ -51,7 +49,7 @@ const form1 = document.getElementsByClassName('needs-validation');
       				app.UserBook.showMatches(arr)
       			} else {
       				addBook()
-      				addModal.hide()
+      				
       			}
       	}
 

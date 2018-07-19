@@ -14,6 +14,7 @@ class BookItem {
 class App {
 	constructor() {
 		this.UserBook = null
+
 	}
 
 	page(data) {
@@ -36,7 +37,7 @@ class App {
 		this.page(0)
 
 		if (localStorage.getItem('user') == null) {
-			if (localStorage.getItem('Data') == null) { app.init() } else { return app.login() }
+			if (localStorage.getItem('Data') == null) { app.init() } else { return this.page(1) }
 		} else { return app.load() }
 	}
 
@@ -60,8 +61,6 @@ class App {
 	}
 
 	login() {
-		this.page(1)
-		document.querySelector('#SignIn').addEventListener('click', () => { 
 			
 
 			const u = document.querySelector('#lUserLogin').value
@@ -91,12 +90,10 @@ class App {
 			}
 						
 
-
-		})				
+			
 	}
 
 	register() {
-		document.querySelector('#SignUp').addEventListener('click', () =>{
 			const u = document.querySelector('#UserLogin').value
 			const p = document.querySelector('#UserPass').value
 			const obj = {Username: u,Password: p,Books: []}
@@ -108,8 +105,6 @@ class App {
 
 			regModal.hide()
 			return this.load()
-
-		})
 		
 
 	}
@@ -136,6 +131,7 @@ class AddressBook {
 		this.uid = book.uid
 		this.checkedList = []
 		this.list = []
+		this.click = ''
 	}
 
 	append(data) {
@@ -266,21 +262,6 @@ class AddressBook {
 				table.append(tr)
 			}
 
-		const btn = document.createElement('div')
-		btn.classList.add('btn')
-		btn.classList.add('btn-primary')
-		btn.id = 'btn-allow'
-		btn.innerHTML = 'Все равно добавить'
-
-		table.append(btn)
-
-		document.querySelector('#btn-allow').addEventListener('click', () => {
-		 matchesModal.hide(); 
-		 addBook() 
-		})
-
-
-
 
 	}
 	filter (method) {
@@ -308,13 +289,19 @@ class AddressBook {
 				if (del.classList.contains('open')){del.classList.remove('open')}
 
 
-				this.list = []
+					this.list = []
 				this.checkedList = []
 				this.multiSel()	
 			}
 
-		let f = () => {
-			items.sort(function(a, b){
+			let f = () => {
+				if (this.click == 'f') { 
+					this.items = items.reverse()
+					this.save()
+					this.load()
+					return}
+				this.click = 'f'
+				items.sort(function(a, b){
 					let nameA=a.fname.toLowerCase(), nameB=b.fname.toLowerCase()
 					if (nameA < nameB) 
 						return -1 
@@ -323,13 +310,21 @@ class AddressBook {
 					return 0 
 				})
 
-			this.items = items
-			this.save()
-			this.load()
-		}
+				this.items = items
+				this.save()
+				this.load()
+			}
 
-		let l = () => {
-			items.sort(function(a, b){
+			let l = () => {
+
+				if (this.click == 'l') { 
+					this.items = items.reverse()
+					this.save()
+					this.load()
+					return}
+
+				this.click = 'l'
+				items.sort(function(a, b){
 					let nameA=a.lname.toLowerCase(), nameB=b.lname.toLowerCase()
 					if (nameA < nameB) 
 						return -1 
@@ -338,36 +333,83 @@ class AddressBook {
 					return 0 
 				})
 
-			this.items = items
-			this.save()
-			this.load()
-		}
-
-		let i = () => {
-			
-			let search = document.querySelector('#search').value
-			if (search == '') {
-				search = ' '
+				this.items = items
+				this.save()
+				this.load()
 			}
 
-			let f = 0
+			let e = () => {
+				if (this.click == 'e') { 
+					this.items = items.reverse()
+					this.save()
+					this.load()
+					return}
 
-			for (var i = 0; i < items.length; i++) {
-				let str = items[i].fname + ' ' +  items[i].lname
+				this.click = 'e'
+	
+				items.sort(function(a, b){
+					let nameA=a.email.toLowerCase(), nameB=b.email.toLowerCase()
+					if (nameA < nameB) 
+						return -1 
+					if (nameA > nameB)
+						return 1
+					return 0 
+				})
+
+				this.items = items
+				this.save()
+				this.load()
+
+			}
+
+			let n = () => {
+				if (this.click == 'n') { 
+					this.items = items.reverse()
+					this.save()
+					this.load()
+					return}
+				this.click = 'n'
 				
-				if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
-					let obj = {uid:i,item:items[i]}
-					arr.push(obj)
-					f +=  1
-					load()
-				}
+				items.sort(function(a, b){
+					let nameA=a.number.toLowerCase(), nameB=b.number.toLowerCase()
+					if (nameA < nameB) 
+						return -1 
+					if (nameA > nameB)
+						return 1
+					return 0 
+				})
+
+				this.items = items
+				this.save()
+				this.load()
+
 			}
 
-			if (f === 0) { alert('Ничего не найдено') }
+			let i = () => {
+
+				let search = document.querySelector('#search').value
+				if (search == '') {
+					search = ' '
+				}
+
+				let f = 0
+
+				for (var i = 0; i < items.length; i++) {
+					let str = items[i].fname + ' ' +  items[i].lname
+
+					if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
+						let obj = {uid:i,item:items[i]}
+						arr.push(obj)
+						f +=  1
+						load()
+					}
+				}
+
+				if (f === 0) { alert('Ничего не найдено') }
 
 
-		}
-		let s = () => {
+			}
+		let searchName = () => {
 			
 			let search = document.querySelector('#search').value
 			if (search == '') {
@@ -378,7 +420,7 @@ class AddressBook {
 				let str = items[i].place
 				
 				if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
-					console.log(i)
+					
 					let obj = {uid:i,item:items[i]}
 					f +=  1
 					arr.push(obj)
@@ -387,23 +429,70 @@ class AddressBook {
 			}
 
 			if (f === 0) { alert('Ничего не найдено') }
-
-
 		}
 
-		switch (method) {
+	let searchData = () => {
 
-			case 'f': f(); break
+		let search = document.querySelector('#search').value.replace('+','')
 
-			case 'l': l(); break
-
-			case 'i': i(); break
-
-			case 's': s(); break
-
+		if (search == '') {
+			search = ' '
 		}
+		let f = 0
+		for (var i = 0; i < items.length; i++) {
+			let str = items[i].number + ' ' + items[i].email
+
+			if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
+				
+				let obj = {uid:i,item:items[i]}
+				f +=  1
+				arr.push(obj)
+				load()
+			}
+		}
+
+		if (f === 0) { alert('Ничего не найдено') }
 
 	}
+
+	let searchWork = () => {
+
+		let search = document.querySelector('#search').value
+
+		if (search == '') {
+			search = ' '
+		}
+		let f = 0
+		for (var i = 0; i < items.length; i++) {
+			let str = items[i].number + ' ' + items[i].email
+
+			if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
+				
+				let obj = {uid:i,item:items[i]}
+				f +=  1
+				arr.push(obj)
+				load()
+			}
+		}
+
+		if (f === 0) { alert('Ничего не найдено') }
+
+	}
+
+switch (method) {
+
+	case 'f': f(); break
+	case 'l': l(); break
+	case 'i': i(); break
+	case 'sN': searchName(); break
+	case 'sE': searchData(); break
+	case 'e': e(); break
+	case 'n': n(); break
+	case 'w': searchWork(); break
+
+}
+
+}
 
 	multiSel() {
 		const box = document.querySelectorAll('.form-check-input')
