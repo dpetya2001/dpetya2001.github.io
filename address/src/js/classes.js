@@ -61,11 +61,13 @@ class App {
 	}
 
 	login() {
-			document.querySelector('#loginForm').reset()
+			
 
 			const u = document.querySelector('#lUserLogin').value
 			const p = document.querySelector('#lUserPass').value
 			const obj = JSON.parse(localStorage.getItem('Data'))
+
+			document.querySelector('#loginForm').reset()
 			let f = 0
 
 			for (var i = 0; i < obj.users.length; i++) {
@@ -94,7 +96,7 @@ class App {
 	}
 
 	register() {
-			document.querySelector('#regForm').reset()
+
 			const u = document.querySelector('#UserLogin').value
 			const p = document.querySelector('#UserPass').value
 			const obj = {Username: u,Password: p,Books: []}
@@ -104,7 +106,9 @@ class App {
 			localStorage.setItem('Data',JSON.stringify(data))
 			localStorage.setItem('user',JSON.stringify({uid:data.users.length-1,obj:[]}))
 
+			document.querySelector('#regForm').reset()
 			regModal.hide()
+
 			return this.load()
 		
 
