@@ -40,7 +40,7 @@ document.querySelector('#btn-allow').addEventListener('click', () => { matchesMo
 // autocomplete
 
 function complete () {
-	const input = document.querySelector('#i5')
+	const input = document.querySelector('#place')
 	const autocomplete = new google.maps.places.Autocomplete(input,{ types: ['(cities)'] })
 }
 

@@ -13,7 +13,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 
-				<form>
+				<form id="regForm">
 					<div class="form-group">
 						<h1>Register</h1>
 						<label for="#UserLogin">Username</label>
@@ -25,15 +25,22 @@
 						<input class="form-control" type="text" 	placeholder="******" id="UserPass">
 					</div>
 
-					<div class="btn btn-primary" id="SignUp">Sign Up</div>
+					
 				</form>
 
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<div class="btn btn-primary" id="SignUp">Sign Up</div>
+				</div>
+
 			</div>
+			
+
 		</div>
 	</div>
 	<div class="container helper" id="startPage">
 		<div class="row">
-			<form>
+			<form id="loginForm">
 				<div class="form-group">
 					<h1>Login</h1>
 					<label for="#UserLogin">Username</label>
@@ -106,7 +113,7 @@
 		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="fullModal">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<form class="needs-validation" novalidate>
+					<form class="needs-validation" id="addForm" novalidate>
 						<div class="form-group">
 							<label for="#first-name">First name*</label>
 							<input class="form-control" type="text" placeholder="John" id="first-name" pattern="[а-яА-ЯёЁa-zA-Z]{2,20}" required>
@@ -151,10 +158,25 @@
 								Неправильный адресс почты
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label>City, Country</label>
+							<input type="text" class="form-control" id="place" placeholder="Москва, Россия" >
+						</div>
+
+						<div class="form-group">
+							<label>Work</label>
+							<input type="text" class="form-control" id="place2" placeholder="ООО Программисты HTML" >
+						</div>
 					
-						<div id="btn-add" class="btn btn-primary"">Add new book</div>
+						
 					</form>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<div id="btn-add" class="btn btn-primary"">Add new book</div>
 				</div>
+				</div>
+				
 				</div>
 			</div>
 		<!-- ********************** -->
@@ -173,6 +195,9 @@
 						<div class="values">
 
 						</div>
+						<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -236,9 +261,14 @@
 							<input type="text" class="form-control" id="i6" placeholder="ООО Программисты HTML" >
 						</div>
 					
-						<div id="btn-save" class="btn btn-primary"">Save book</div>
+						
 					</form>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<div id="btn-save" class="btn btn-primary"">Save book</div>
 				</div>
+				</div>
+				
 			</div>
 		</div>
 		<!-- *************************** -->
@@ -261,7 +291,7 @@
 			</table>
 			<div class="modal-footer">
 					<div class="btn btn-primary" id="btn-allow">Все равно добавить</div>
-				</div>	
+			</div>	
 				</div>
 				
 			</div>
@@ -271,9 +301,11 @@
 
 	
 	
+	
 	<script src="src/libs/bootstrap-native.min.js"></script>
 	<script src="src/js/other.js"></script>
 	<script src="src/js/classes.js"></script>
 	<script src="src/js/index.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiJErCGzEU21qPo9hYvxTw7ZaWPoME9Dk&libraries=places&callback=complete"></script>
 </body>
 </html>

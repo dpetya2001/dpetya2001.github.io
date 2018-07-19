@@ -12,10 +12,12 @@ function addBook () {
 	const lname = d.querySelector('#last-name').value
 	const email = d.querySelector('#email').value
 	const number = d.querySelector('#number').value
-	const place = 'not added'
-	const place2 = 'not added'
+	const place = d.querySelector('#place').value
+	const place2 = d.querySelector('#place2').value
 	const book = new BookItem(fname,lname,email,number,place,place2)
-	
+
+
+	document.querySelector('#addForm').reset()
 	app.UserBook.append(book)
 
 }
@@ -48,6 +50,8 @@ const form1 = document.getElementsByClassName('needs-validation');
       				matchesModal.show()
       				app.UserBook.showMatches(arr)
       			} else {
+
+      				addModal.hide()
       				addBook()
       				
       			}

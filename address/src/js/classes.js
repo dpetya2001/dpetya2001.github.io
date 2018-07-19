@@ -61,7 +61,7 @@ class App {
 	}
 
 	login() {
-			
+			document.querySelector('#loginForm').reset()
 
 			const u = document.querySelector('#lUserLogin').value
 			const p = document.querySelector('#lUserPass').value
@@ -94,6 +94,7 @@ class App {
 	}
 
 	register() {
+			document.querySelector('#regForm').reset()
 			const u = document.querySelector('#UserLogin').value
 			const p = document.querySelector('#UserPass').value
 			const obj = {Username: u,Password: p,Books: []}
