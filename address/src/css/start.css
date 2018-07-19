@@ -35,6 +35,7 @@ html,body {
 #ui1 div span {
 	padding: 10px;
 	margin: 10px;
+	min-height: 43px;
 }
 #ui1 div input {
 	padding: 8px;
@@ -42,4 +43,8 @@ html,body {
 }
 .heading {
 	font-weight: bold;
+}
+
+.pointable {
+	cursor: pointer;
 }

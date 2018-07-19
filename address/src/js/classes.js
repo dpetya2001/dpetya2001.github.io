@@ -76,13 +76,9 @@ class App {
 
     					const list = JSON.parse(localStorage.getItem('Data'));
     					localStorage.setItem('user',JSON.stringify({uid:i,obj:list.users[i].Books}))
-    					
-    					return this.load()
-
-    				} else { 
-    					alert('Неправильный пароль!') 
     					f = 1
-    					break
+
+    					return this.load()
     				}
   				} 
 			}
@@ -90,7 +86,7 @@ class App {
 			if (f == 1) {
 				return false
 			} else {
-				alert('Taкого паользователя нет, можете зарегистрироваться')
+				alert('логин или пароль введены неверно проверьте вводимые данные')
 				return false
 			}
 						
@@ -110,7 +106,7 @@ class App {
 			localStorage.setItem('Data',JSON.stringify(data))
 			localStorage.setItem('user',JSON.stringify({uid:data.users.length-1,obj:[]}))
 
-			regModal.toggle()
+			regModal.hide()
 			return this.load()
 
 		})
@@ -159,6 +155,7 @@ class AddressBook {
 		this.save()
 		this.load()
 	}
+
 	load() {
 		const table = document.querySelector('tbody')
 		table.innerHTML = ''
@@ -204,45 +201,210 @@ class AddressBook {
 					<span>${this.items[i].place2}</span> 
 					<div class="btn btn-primary" id="btn-edit">Edit</div>`
 
-		document.querySelector('#btn-edit').addEventListener('click', () => { this.edit() })
+		document.querySelector('#btn-edit').addEventListener('click', () => { 
+
+			const i = this.checkedList[0]
+
+			infoModal.hide()		
+		
+			document.querySelector('#i1').value = this.items[i].fname
+			document.querySelector('#i2').value = this.items[i].lname
+			document.querySelector('#i3').value = this.items[i].number
+			document.querySelector('#i4').value = this.items[i].email
+			document.querySelector('#i5').value = this.items[i].place
+			document.querySelector('#i6').value = this.items[i].place2
+
+			editModal.show()
+
+		})
 
 	}
 	edit () {
-		const i = this.checkedList[0]
 
-
-		document.querySelector('.values').innerHTML = 
-					`
-					<input id="i1" type="text" value="${this.items[i].fname}">
-					<input id="i2" type="text" value="${this.items[i].lname}">
-					<input id="i3" type="text" value="${this.items[i].email}">
-					<input id="i4" type="text" value="${this.items[i].number}">
-					<input id="i5" type="text" value="${this.items[i].place}">
-					<input id="i6" type="text" value="${this.items[i].place2}">
-					<div class="btn btn-primary" id="btn-save">Save</div> `
-
-		document.querySelector('#btn-save').addEventListener('click', () => { 
-			infoModal.toggle() 
+			editModal.hide()
+			const i = this.checkedList[0]
 			const d = document
 			const fname = d.querySelector('#i1').value
 			const lname = d.querySelector('#i2').value
-			const email = d.querySelector('#i3').value
-			const number = d.querySelector('#i4').value
+			const number = d.querySelector('#i3').value
+			const email = d.querySelector('#i4').value
 			const place = d.querySelector('#i5').value
 			const place2 = d.querySelector('#i6').value
 
 			this.items[i] = new BookItem(fname,lname,email,number,place,place2)
 			this.save()
 			this.load()
+	}
+	matchesEdit(event) {
+		const uid = event.target.getAttribute('bid')
+		matchesModal.hide()
 
+		document.querySelector('#i1').value = this.items[uid].fname
+		document.querySelector('#i2').value = this.items[uid].lname
+		document.querySelector('#i3').value = this.items[uid].number
+		document.querySelector('#i4').value = this.items[uid].email
+		document.querySelector('#i5').value = this.items[uid].place
+		document.querySelector('#i6').value = this.items[uid].place2
+		this.checkedList[0] = uid
 
+		editModal.show()
+
+	}
+	showMatches(arr) {
+		const table = document.querySelector('#ui2')
+			table.innerHTML = ''
+
+			for (var i = 0; i < arr.length; i++) {
+				const tr = document.createElement('tr')
+				tr.innerHTML = `<tr>
+				<th scope="row"><div onclick="app.UserBook.matchesEdit(event)" class="btn btn-primary" bid="${arr[i].uid}">edit</div></th>
+				<td>${arr[i].item.fname}</td>
+				<td>${arr[i].item.lname}</td>
+				<td>${arr[i].item.email}</td>
+				<td>${arr[i].item.number}</td>
+				</tr>`;
+				table.append(tr)
+			}
+
+		const btn = document.createElement('div')
+		btn.classList.add('btn')
+		btn.classList.add('btn-primary')
+		btn.id = 'btn-allow'
+		btn.innerHTML = 'Все равно добавить'
+
+		table.append(btn)
+
+		document.querySelector('#btn-allow').addEventListener('click', () => {
+		 matchesModal.hide(); 
+		 addBook() 
 		})
 
 
 
 
+	}
+	filter (method) {
+		const items = this.items
+		const arr = []
+
+		let load = () => {
+			const table = document.querySelector('tbody')
+			table.innerHTML = ''
+
+			for (var i = 0; i < arr.length; i++) {
+				const tr = document.createElement('tr')
+				tr.innerHTML = `<tr>
+				<th scope="row"><input type="checkbox" class="form-check-input" bid="${arr[i].uid}"></th>
+				<td>${arr[i].item.fname}</td>
+				<td>${arr[i].item.lname}</td>
+				<td>${arr[i].item.email}</td>
+				<td>${arr[i].item.number}</td>
+				</tr>`;
+				table.append(tr)
+			}
+			const del = document.querySelector('#btn-delete')
+			const upd = document.querySelector('#btn-info')
+			if (upd.classList.contains('open')){upd.classList.remove('open')}
+				if (del.classList.contains('open')){del.classList.remove('open')}
+
+
+				this.list = []
+				this.checkedList = []
+				this.multiSel()	
+			}
+
+		let f = () => {
+			items.sort(function(a, b){
+					let nameA=a.fname.toLowerCase(), nameB=b.fname.toLowerCase()
+					if (nameA < nameB) 
+						return -1 
+					if (nameA > nameB)
+						return 1
+					return 0 
+				})
+
+			this.items = items
+			this.save()
+			this.load()
+		}
+
+		let l = () => {
+			items.sort(function(a, b){
+					let nameA=a.lname.toLowerCase(), nameB=b.lname.toLowerCase()
+					if (nameA < nameB) 
+						return -1 
+					if (nameA > nameB)
+						return 1
+					return 0 
+				})
+
+			this.items = items
+			this.save()
+			this.load()
+		}
+
+		let i = () => {
+			
+			let search = document.querySelector('#search').value
+			if (search == '') {
+				search = ' '
+			}
+
+			let f = 0
+
+			for (var i = 0; i < items.length; i++) {
+				let str = items[i].fname + ' ' +  items[i].lname
+				
+				if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
+					let obj = {uid:i,item:items[i]}
+					arr.push(obj)
+					f +=  1
+					load()
+				}
+			}
+
+			if (f === 0) { alert('Ничего не найдено') }
+
+
+		}
+		let s = () => {
+			
+			let search = document.querySelector('#search').value
+			if (search == '') {
+				search = ' '
+			}
+			let f = 0
+			for (var i = 0; i < items.length; i++) {
+				let str = items[i].place
+				
+				if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
+					console.log(i)
+					let obj = {uid:i,item:items[i]}
+					f +=  1
+					arr.push(obj)
+					load()
+				}
+			}
+
+			if (f === 0) { alert('Ничего не найдено') }
+
+
+		}
+
+		switch (method) {
+
+			case 'f': f(); break
+
+			case 'l': l(); break
+
+			case 'i': i(); break
+
+			case 's': s(); break
+
+		}
 
 	}
+
 	multiSel() {
 		const box = document.querySelectorAll('.form-check-input')
 		let result;
