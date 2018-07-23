@@ -75,8 +75,14 @@ function ConvertToCSV(objArray) {
 
 function downloadCSV() {
 	const array = [{h1: 'first',h2:'last',h3:'email',h4:'number',h5:'city/country',h6:'work place'}]
-	const arr = array.concat(JSON.parse(localStorage.getItem('user')).obj)
-	const csvString = ConvertToCSV(arr)
+
+	if (app.UserBook.checkedList.length == 0) { return alert('Выберите контакты которые желаете экспортировать!') }
+	for (let i = 0; i < app.UserBook.checkedList.length ; i++) {
+			array.push(app.UserBook.items[app.UserBook.checkedList[i]])
+		}
+
+	console.log(array)
+	const csvString = ConvertToCSV(array)
 
 	const a         = document.createElement('a')
 	a.href        = 'data:attachment/csv,' +  encodeURIComponent(csvString)
