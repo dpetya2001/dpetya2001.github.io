@@ -7,6 +7,7 @@ const regModal = new Modal(doc.querySelector('#regModal'))
 const infoModal = new Modal(doc.querySelector('#infoModal'))
 const editModal = new Modal(doc.querySelector('#editModal'))
 const matchesModal = new Modal(doc.querySelector('#matchesModal'))
+
 // ***************
 // listeners
 // doc.querySelector('#btn-add').addEventListener('click', () => { addBook() })
@@ -17,6 +18,7 @@ doc.querySelector('#SignIn').addEventListener('click', () => { app.login() })
 doc.querySelector('#SignUp').addEventListener('click', () =>{ app.register() })
 doc.querySelector('#btn-exit').addEventListener('click', () => { app.exit() })
 doc.querySelector('#btn-info').addEventListener('click', () => { infoModal.toggle(); app.UserBook.fullView() })
+doc.querySelector('#btn-select-all').addEventListener('click', () => { app.UserBook.checkAll() })
 
 // filters
 doc.querySelector('#byF').addEventListener('click', () => { app.UserBook.filter('f') })
@@ -42,5 +44,35 @@ document.querySelector('#btn-allow').addEventListener('click', () => { matchesMo
 function complete () {
 	const input = document.querySelector('#place')
 	const autocomplete = new google.maps.places.Autocomplete(input,{ types: ['(cities)'] })
+}
+
+function ConvertToCSV(objArray) {
+            var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+            var str = '';
+ 
+            for (var i = 0; i < array.length; i++) {
+                var line = '';
+                for (var index in array[i]) {
+                    if (line != '') line += ','
+ 
+                    line += array[i][index];
+                }
+ 
+                str += line + '\r\n';
+            }
+ 
+            return str;
+        }
+function downloadCSV() {
+	const array = [{h1: 'first',h2:'last',h3:'email',h4:'number',h5:'city/country',h6:'work place'}]
+	const arr = array.concat(JSON.parse(localStorage.getItem('user')).obj)
+	const csvString = ConvertToCSV(arr)
+
+	const a         = document.createElement('a')
+	a.href        = 'data:attachment/csv,' +  encodeURIComponent(csvString)
+	a.target      = '_blank'
+	a.download    = 'myFile.csv'
+
+	a.click()
 }
 

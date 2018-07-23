@@ -12,8 +12,9 @@ function addBook () {
 	const lname = d.querySelector('#last-name').value
 	const email = d.querySelector('#email').value
 	const number = d.querySelector('#number').value
-	const place = d.querySelector('#place').value
-	const place2 = d.querySelector('#place2').value
+	const place = d.querySelector('#place').value.replace(/,/gi,'/')
+	console.log(place)
+	const place2 = d.querySelector('#place2').value.replace(/,/gi,'/')
 	const book = new BookItem(fname,lname,email,number,place,place2)
 
 

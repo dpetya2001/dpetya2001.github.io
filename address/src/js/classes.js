@@ -137,6 +137,7 @@ class AddressBook {
 		this.checkedList = []
 		this.list = []
 		this.click = ''
+		this.selectall = false
 	}
 
 	append(data) {
@@ -200,7 +201,7 @@ class AddressBook {
 					<span>${this.items[i].number}</span>
 					<span>${this.items[i].place}</span>
 					<span>${this.items[i].place2}</span> 
-					<div class="btn btn-primary" id="btn-edit">Edit</div>`
+					`
 
 		document.querySelector('#btn-edit').addEventListener('click', () => { 
 
@@ -244,8 +245,8 @@ class AddressBook {
 		document.querySelector('#i2').value = this.items[uid].lname
 		document.querySelector('#i3').value = this.items[uid].number
 		document.querySelector('#i4').value = this.items[uid].email
-		document.querySelector('#i5').value = this.items[uid].place
-		document.querySelector('#i6').value = this.items[uid].place2
+		document.querySelector('#i5').value = this.items[uid].place.replace(/,/gi,'/')
+		document.querySelector('#i6').value = this.items[uid].place2.replace(/,/gi,'/')
 		this.checkedList[0] = uid
 
 		editModal.show()
@@ -510,7 +511,8 @@ switch (method) {
 		    	this.list.push(parseInt(result.getAttribute('bid'),10))
 	
 		    	result.addEventListener('change', (e) => {
-		    	const bid = parseInt(e.target.getAttribute('bid'))
+		    		
+		    		const bid = parseInt(e.target.getAttribute('bid'))
 
 		    		// check
 		    		if (e.target.checked) {
@@ -535,5 +537,51 @@ switch (method) {
 				})
 	    	}	    
 		}
+	}
+
+	checkAll () {
+		const checkboxes = document.querySelectorAll('.form-check-input')
+		let value = true
+		let event = new Event("change");
+
+		if (this.selectall == true) { 
+			value = false 
+			this.selectall = false 
+
+			for (var i = 0; i < checkboxes.length; i++) {
+				checkboxes[i].checked = value
+				checkboxes[i].dispatchEvent(event)
+			}
+
+		} else { 
+			this.selectall = true
+
+			for (var i = 0; i < checkboxes.length; i++) {
+				checkboxes[i].checked = value
+				checkboxes[i].dispatchEvent(event)	
+			}
+
+
+
+
+		}
+
+		
+		// show/hide buttons
+		const del = document.querySelector('#btn-delete')
+		const upd = document.querySelector('#btn-info')
+
+	    if (this.checkedList.length == 1) {
+	    	if (!del.classList.contains('open')){del.classList.toggle('open')}
+	    	upd.classList.toggle('open')
+	    } else if(this.checkedList.length > 1) {  
+	    	if (!del.classList.contains('open')){upd.classList.toggle('open')}	
+	    	if (upd.classList.contains('open')){upd.classList.toggle('open')}	
+	    } else if (this.checkedList.length == 0) {
+	    	if (upd.classList.contains('open')){upd.classList.toggle('open')}
+	    	if (del.classList.contains('open')){del.classList.toggle('open')}
+	    }
+		this.multiSel()
+		
 	}
 }

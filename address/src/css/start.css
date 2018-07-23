@@ -16,7 +16,7 @@ html,body {
 .form-check-input {
 	margin-left: 7px;
 }
-#btn-info {
+#btn-info,#btn-select-all {
 	margin-left: 1em;
 }
 .pac-container {
