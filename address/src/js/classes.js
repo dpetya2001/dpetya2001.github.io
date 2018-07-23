@@ -158,6 +158,26 @@ class AddressBook {
 		this.load()
 	}
 
+	importJSON() {
+		const url = document.querySelector('#importurl').value
+
+		axios.get(url)
+  			.then(response => {
+  				console.log(response.data)
+    			let newArr = this.items.concat(response.data)
+    			this.items = newArr
+    			this.save()
+				this.load()
+				document.querySelector('#importurl').value = ''
+				importModal.hide()
+
+  			})
+ 			.catch(error => {
+    			console.log(error);
+    			alert('Ошибка, проверьте введенные данные')
+  			})
+	}
+
 	load() {
 		const table = document.querySelector('tbody')
 		table.innerHTML = ''

@@ -7,6 +7,7 @@ const regModal = new Modal(doc.querySelector('#regModal'))
 const infoModal = new Modal(doc.querySelector('#infoModal'))
 const editModal = new Modal(doc.querySelector('#editModal'))
 const matchesModal = new Modal(doc.querySelector('#matchesModal'))
+const importModal = new Modal(doc.querySelector('#import'))
 
 // ***************
 // listeners
@@ -19,6 +20,8 @@ doc.querySelector('#SignUp').addEventListener('click', () =>{ app.register() })
 doc.querySelector('#btn-exit').addEventListener('click', () => { app.exit() })
 doc.querySelector('#btn-info').addEventListener('click', () => { infoModal.toggle(); app.UserBook.fullView() })
 doc.querySelector('#btn-select-all').addEventListener('click', () => { app.UserBook.checkAll() })
+doc.querySelector('#importJson').addEventListener('click', () => { importModal.show() })
+doc.querySelector('#btn-import').addEventListener('click', () => { app.UserBook.importJSON()})
 
 // filters
 doc.querySelector('#byF').addEventListener('click', () => { app.UserBook.filter('f') })
@@ -75,4 +78,3 @@ function downloadCSV() {
 
 	a.click()
 }
-

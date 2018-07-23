@@ -87,6 +87,7 @@
 
 		<div class="row mb-3">
 			<div class="btn btn-secondary" onclick="downloadCSV()">save to CSV</div>
+			<div class="btn btn-info" id="importJson">import form json</div>
 			<hr>
 		</div>
 
@@ -212,6 +213,22 @@
 
 			</div>
 		</div>
+		
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="import">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content" >
+					<div class="form-group">
+							<label>Json file url</label>
+							<input type="text" class="form-control" id="importurl" placeholder="https://mysite/test.json" >
+						</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<div class="btn btn-primary" id="btn-import">Import</div>
+				</div>
+				</div>
+
+			</div>
+		</div>
 
 		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="editModal">
 			<div class="modal-dialog modal-lg">
@@ -314,7 +331,7 @@
 
 	
 	
-	
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="src/libs/bootstrap-native.min.js"></script>
 	<script src="src/js/other.js"></script>
 	<script src="src/js/classes.js"></script>
