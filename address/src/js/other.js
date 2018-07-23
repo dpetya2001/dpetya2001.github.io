@@ -24,10 +24,13 @@ doc.querySelector('#importJson').addEventListener('click', () => { importModal.s
 doc.querySelector('#btn-import').addEventListener('click', () => { app.UserBook.importJSON()})
 
 // filters
+// f - firstname l-lastname e -email n -number
 doc.querySelector('#byF').addEventListener('click', () => { app.UserBook.filter('f') })
 doc.querySelector('#byL').addEventListener('click', () => { app.UserBook.filter('l') })
 doc.querySelector('#byE').addEventListener('click', () => { app.UserBook.filter('e') })
 doc.querySelector('#byN').addEventListener('click', () => { app.UserBook.filter('n') })
+
+// sN - place (city,country) sE - email, number w- worl place, i - first,last name
 doc.querySelector('#btn-search').addEventListener('click', () => { 
 	
 	const sel = document.querySelector('#iSelect')
@@ -46,9 +49,12 @@ document.querySelector('#btn-allow').addEventListener('click', () => { matchesMo
 
 function complete () {
 	const input = document.querySelector('#place')
+	const input2 = document.querySelector('#i5')
 	const autocomplete = new google.maps.places.Autocomplete(input,{ types: ['(cities)'] })
+	const autocomplete2 = new google.maps.places.Autocomplete(input2,{ types: ['(cities)'] })
 }
 
+// CSV format coverting
 function ConvertToCSV(objArray) {
             var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
             var str = '';
@@ -66,6 +72,7 @@ function ConvertToCSV(objArray) {
  
             return str;
         }
+
 function downloadCSV() {
 	const array = [{h1: 'first',h2:'last',h3:'email',h4:'number',h5:'city/country',h6:'work place'}]
 	const arr = array.concat(JSON.parse(localStorage.getItem('user')).obj)

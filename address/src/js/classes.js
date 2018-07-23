@@ -17,6 +17,7 @@ class App {
 
 	}
 
+	// set login page or register page
 	page(data) {
 		const sp = document.querySelector('#startPage')
 		const lp = document.querySelector('#LoginedSide')
@@ -33,6 +34,7 @@ class App {
 		}		
 	}
 
+	// start app, set login page or user address boook interface
 	start() {
 		this.page(0)
 
@@ -41,6 +43,7 @@ class App {
 		} else { return app.load() }
 	}
 
+	// load books
 	load () {
 		const obj = JSON.parse(localStorage.getItem('user'))
 
@@ -51,7 +54,7 @@ class App {
 
 	}
 
-
+	// first starting
 	init() {
 			const obj = JSON.stringify({users: [{ Username: "root",Password: "",Books: []}]})
 			localStorage.setItem('Data', obj)
@@ -70,7 +73,7 @@ class App {
 			document.querySelector('#loginForm').reset()
 			let f = 0
 
-			for (var i = 0; i < obj.users.length; i++) {
+			for (let i = 0; i < obj.users.length; i++) {
   				if (obj.users[i].Username == u) {
     				
     				if (obj.users[i].Password == p) {
@@ -140,6 +143,7 @@ class AddressBook {
 		this.selectall = false
 	}
 
+	// add book
 	append(data) {
 		this.items.push(data)
 		this.save()
@@ -149,7 +153,7 @@ class AddressBook {
 
 	del() {
 		this.checkedList.sort()
-		for (var i = this.checkedList.length - 1; i > -1 ; i--) {
+		for (let i = this.checkedList.length - 1; i > -1 ; i--) {
 			console.log(i)
 			this.items.splice(this.checkedList[i],1)
 		}
@@ -182,7 +186,7 @@ class AddressBook {
 		const table = document.querySelector('tbody')
 		table.innerHTML = ''
 		
-		for (var i = 0; i < this.items.length; i++) {
+		for (let i = 0; i < this.items.length; i++) {
 			const tr = document.createElement('tr')
 			tr.innerHTML = `<tr>
       							<th scope="row"><input type="checkbox" class="form-check-input" bid="${i}"></th>
@@ -210,6 +214,7 @@ class AddressBook {
 		localStorage.setItem('user', JSON.stringify({uid:this.uid,obj: this.items}))
 	}
 
+	// full info in modal 
 	fullView () {
 		const i = this.checkedList[0]
 
@@ -257,6 +262,8 @@ class AddressBook {
 			this.save()
 			this.load()
 	}
+
+	// edit match
 	matchesEdit(event) {
 		const uid = event.target.getAttribute('bid')
 		matchesModal.hide()
@@ -272,11 +279,13 @@ class AddressBook {
 		editModal.show()
 
 	}
+
+	// modal witch matches
 	showMatches(arr) {
 		const table = document.querySelector('#ui2')
 			table.innerHTML = ''
 
-			for (var i = 0; i < arr.length; i++) {
+			for (let i = 0; i < arr.length; i++) {
 				const tr = document.createElement('tr')
 				tr.innerHTML = `<tr>
 				<th scope="row"><div onclick="app.UserBook.matchesEdit(event)" class="btn btn-primary" bid="${arr[i].uid}">edit</div></th>
@@ -290,6 +299,8 @@ class AddressBook {
 
 
 	}
+
+	// sorting and search
 	filter (method) {
 		const items = this.items
 		const arr = []
@@ -298,7 +309,7 @@ class AddressBook {
 			const table = document.querySelector('tbody')
 			table.innerHTML = ''
 
-			for (var i = 0; i < arr.length; i++) {
+			for (let i = 0; i < arr.length; i++) {
 				const tr = document.createElement('tr')
 				tr.innerHTML = `<tr>
 				<th scope="row"><input type="checkbox" class="form-check-input" bid="${arr[i].uid}"></th>
@@ -420,7 +431,7 @@ class AddressBook {
 
 				let f = 0
 
-				for (var i = 0; i < items.length; i++) {
+				for (let i = 0; i < items.length; i++) {
 					let str = items[i].fname + ' ' +  items[i].lname
 
 					if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
@@ -442,7 +453,7 @@ class AddressBook {
 				search = ' '
 			}
 			let f = 0
-			for (var i = 0; i < items.length; i++) {
+			for (let i = 0; i < items.length; i++) {
 				let str = items[i].place
 				
 				if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
@@ -465,7 +476,7 @@ class AddressBook {
 			search = ' '
 		}
 		let f = 0
-		for (var i = 0; i < items.length; i++) {
+		for (let i = 0; i < items.length; i++) {
 			let str = items[i].number + ' ' + items[i].email
 
 			if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
@@ -489,7 +500,7 @@ class AddressBook {
 			search = ' '
 		}
 		let f = 0
-		for (var i = 0; i < items.length; i++) {
+		for (let i = 0; i < items.length; i++) {
 			let str = items[i].place2 + ' '
 
 			if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
@@ -519,12 +530,12 @@ switch (method) {
 }
 
 }
-
+	// multiselecting
 	multiSel() {
 		const box = document.querySelectorAll('.form-check-input')
 		let result;
 	
-		for (var i = 0; i < box.length; i++) {
+		for (let i = 0; i < box.length; i++) {
 		    result = box[i];
 		  
 		    if (this.list.indexOf(parseInt(result.getAttribute('bid'),10)) < 0) {
@@ -568,7 +579,7 @@ switch (method) {
 			value = false 
 			this.selectall = false 
 
-			for (var i = 0; i < checkboxes.length; i++) {
+			for (let i = 0; i < checkboxes.length; i++) {
 				checkboxes[i].checked = value
 				checkboxes[i].dispatchEvent(event)
 			}
@@ -576,7 +587,7 @@ switch (method) {
 		} else { 
 			this.selectall = true
 
-			for (var i = 0; i < checkboxes.length; i++) {
+			for (let i = 0; i < checkboxes.length; i++) {
 				checkboxes[i].checked = value
 				checkboxes[i].dispatchEvent(event)	
 			}
