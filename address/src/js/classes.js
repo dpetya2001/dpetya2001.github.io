@@ -430,7 +430,7 @@ class AddressBook {
 				let f = 0
 
 				for (let i = 0; i < items.length; i++) {
-					let str = items[i].fname + ' ' +  items[i].lname
+					let str = items[i].place + ' '
 
 					if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
 						let obj = {uid:i,item:items[i]}
