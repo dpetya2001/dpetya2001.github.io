@@ -22,6 +22,7 @@ doc.querySelector('#btn-info').addEventListener('click', () => { infoModal.toggl
 doc.querySelector('#btn-select-all').addEventListener('click', () => { app.UserBook.checkAll() })
 doc.querySelector('#importJson').addEventListener('click', () => { importModal.show() })
 doc.querySelector('#btn-import').addEventListener('click', () => { app.UserBook.importJSON()})
+doc.querySelector('#btn-allow').addEventListener('click', () => { matchesModal.hide();  addBook() })
 
 // filters
 // f - firstname l-lastname e -email n -number
@@ -35,15 +36,16 @@ doc.querySelector('#btn-search').addEventListener('click', () => {
 	
 	const sel = document.querySelector('#iSelect')
 	const val = sel.options[sel.selectedIndex].value
-	if (val == 0) { app.UserBook.filter('i') } 
-		else if (val == 1) { app.UserBook.filter('sN')} 
-		else if (val == 2)	{ app.UserBook.filter('sE') }
+	if (val == 0) { app.UserBook.filter('p') } 
 		else { app.UserBook.filter('w') }
 
 })
 
-document.querySelector('#btn-allow').addEventListener('click', () => { matchesModal.hide();  addBook() })
-
+// paramsSearch
+doc.querySelector('#search0').addEventListener('input', () => { app.UserBook.filter() })
+doc.querySelector('#search1').addEventListener('input', () => { app.UserBook.filter() })
+doc.querySelector('#search2').addEventListener('input', () => { app.UserBook.filter() })
+doc.querySelector('#search3').addEventListener('input', () => { app.UserBook.filter() })
 // **********
 // autocomplete
 

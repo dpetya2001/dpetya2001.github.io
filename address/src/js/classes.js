@@ -154,7 +154,6 @@ class AddressBook {
 	del() {
 		this.checkedList.sort()
 		for (let i = this.checkedList.length - 1; i > -1 ; i--) {
-			console.log(i)
 			this.items.splice(this.checkedList[i],1)
 		}
 		
@@ -167,7 +166,6 @@ class AddressBook {
 
 		axios.get(url)
   			.then(response => {
-  				console.log(response.data)
     			let newArr = this.items.concat(response.data)
     			this.items = newArr
     			this.save()
@@ -422,7 +420,7 @@ class AddressBook {
 
 			}
 
-			let i = () => {
+			let searchPlace = () => {
 
 				let search = document.querySelector('#search').value
 				if (search == '') {
@@ -446,51 +444,46 @@ class AddressBook {
 
 
 			}
-		let searchName = () => {
+		let searchParams = () => {
 			
-			let search = document.querySelector('#search').value
-			if (search == '') {
-				search = ' '
-			}
+			let search0 = document.querySelector('#search0').value
+			let search1 = document.querySelector('#search1').value
+			let search2 = document.querySelector('#search2').value
+			let search3 = document.querySelector('#search3').value.replace('+','')
+
+			if (search0 == '') {search0 = ' '}
+			if (search1 == '') {search1 = ' '}
+			if (search2 == '') {search2 = ' '}
+			if (search3 == '') {search3 = ' '}
+
 			let f = 0
 			for (let i = 0; i < items.length; i++) {
-				let str = items[i].place
+				let str0 = items[i].fname + ' ' 
+				let str1 = items[i].lname + ' '
+				let str2 = items[i].email + ' '
+				let str3 = items[i].number + ' '
+				let check = true
 				
-				if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
-					
+				if (str0.match(eval('{' + ('/' + search0 + '/gi') + '}')) == null) { check = false}
+				if (str1.match(eval('{' + ('/' + search1 + '/gi') + '}')) == null) { check = false}
+				if (str2.match(eval('{' + ('/' + search2 + '/gi') + '}')) == null) { check = false}
+				if (str3.match(eval('{' + ('/' + search3 + '/gi') + '}')) == null) { check = false}
+
+				if (check == true)		
+				  {
 					let obj = {uid:i,item:items[i]}
 					f +=  1
 					arr.push(obj)
 					load()
+				} else {
+					load()
 				}
 			}
 
-			if (f === 0) { alert('Ничего не найдено') }
+			
 		}
 
-	let searchData = () => {
-
-		let search = document.querySelector('#search').value.replace('+','')
-
-		if (search == '') {
-			search = ' '
-		}
-		let f = 0
-		for (let i = 0; i < items.length; i++) {
-			let str = items[i].number + ' ' + items[i].email
-
-			if (!(str.match(eval('{' + ('/' + search + '/gi') + '}')) == null)) {
-				
-				let obj = {uid:i,item:items[i]}
-				f +=  1
-				arr.push(obj)
-				load()
-			}
-		}
-
-		if (f === 0) { alert('Ничего не найдено') }
-
-	}
+	
 
 	let searchWork = () => {
 
@@ -520,12 +513,11 @@ switch (method) {
 
 	case 'f': f(); break
 	case 'l': l(); break
-	case 'i': i(); break
-	case 'sN': searchName(); break
-	case 'sE': searchData(); break
 	case 'e': e(); break
 	case 'n': n(); break
+	case 'p': searchPlace(); break
 	case 'w': searchWork(); break
+	default: searchParams(); break
 
 }
 
